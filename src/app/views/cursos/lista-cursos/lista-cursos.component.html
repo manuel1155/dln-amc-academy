@@ -1,0 +1,14 @@
+<div *ngIf="done">
+  <h1>Cursos registrados</h1>
+  <ag-grid-angular 
+        style="width: 100%; height: 500px;" 
+        class="ag-theme-alpine"
+        [rowData]="cursos$" 
+        [columnDefs]="columnDefs"
+        [pagination]="true"
+        [paginationPageSize]="10">
+      </ag-grid-angular>
+</div>
+
+
+

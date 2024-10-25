@@ -1,0 +1,72 @@
+<div class="container p-10">
+    <h3 class="text-center mt-5 mb-5"> Nombre del curso:  {{ currentCurso?.titulo }}</h3>
+    <c-row class="mb-10">
+        <c-col sm="2">
+            <b>Objetivo:</b>
+        </c-col>
+        <c-col sm="10">
+            <p> {{ currentCurso?.objetivo_curso }} </p>
+        </c-col>
+    </c-row>
+    <c-row class="mb-10">
+        <c-col sm="2">
+            <b> Dirigido a: </b>
+        </c-col>
+        <c-col sm="4">
+            <p> {{ currentCurso?.dirigido_a }} </p>
+        </c-col>
+        <c-col sm="2">
+            <b> Duracion: </b>
+        </c-col>
+        <c-col sm="4">
+            <p> {{ currentCurso?.comentarios_duracion }} </p>
+        </c-col>
+    </c-row>
+    <c-row class="mb-10">
+        <c-col sm="2">
+            <b> Modalidad: </b>
+        </c-col>
+        <c-col sm="2">
+            <c-badge class="ms-2 float-start" color="primary" *ngIf="currentCurso?.modalidad?.includes('Presencial')"> Presencial </c-badge>
+            <c-badge class="ms-2 float-start" color="warning" *ngIf="currentCurso?.modalidad?.includes('Online')"> Online </c-badge>
+        </c-col>
+        <c-col sm="2">
+            <b> Comentarios generales: </b>
+        </c-col>
+        <c-col sm="6">
+            <p> {{ currentCurso?.comentarios_grales }} </p>
+        </c-col>
+    </c-row>
+    <c-row class="mb-10">
+        <c-col sm="2">
+            <b> Importancia: </b>
+        </c-col>
+        <c-col sm="10">
+            <p> {{ currentCurso?.importancia }} </p>
+        </c-col>
+    </c-row>
+
+    <h5 class="text-center mt-5 mb-5"> Modulos del Curso </h5>
+
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item" *ngFor="let modulo of modulosCurso | async; let i = index">
+            <h2 class="accordion-header" id="heading{{ i }}">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    [attr.data-bs-target]="'#collapse' + i"
+                    [attr.aria-controls]="'collapse' + i">
+                      <span style="font-weight: bold;"> TEMA {{ i+1 }}.- </span> {{ modulo.nombre_modulo }}
+                      <c-badge class="ms-2 float-end" color="success"> {{ modulo.area }} </c-badge>
+                </button>
+            </h2>
+            <div [id]="'collapse' + i" class="accordion-collapse collapse"
+                [attr.aria-labelledby]="'heading'+i">
+                <div class="accordion-body">
+                    <h5 class="mt-5 mb-5"> Lista de subtemas </h5>
+
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
