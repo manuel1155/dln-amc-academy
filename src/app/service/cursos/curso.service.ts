@@ -1,45 +1,56 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collectionData, docData, addDoc, updateDoc, deleteDoc, doc, collection, setDoc } from '@angular/fire/firestore';
+import {
+  Firestore,
+  collectionData,
+  docData,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  collection,
+  setDoc,
+} from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Curso } from './../../interfaces/curso';
 
+import { HttpClient } from '@angular/common/http';
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CursoService {
+  private baseUrl: string = 'http://localhost:3000';
 
-  private cursosCollection = collection(this.firestore, 'cursos');
-
-  constructor(private firestore: Firestore) { }
+  constructor(private firestore: Firestore, private http: HttpClient) {}
 
   getCursos(): Observable<Curso[]> {
-    return collectionData(this.cursosCollection, { idField: 'id' }) as Observable<Curso[]>;
+    return this.http.get<Curso[]>(`${this.baseUrl}/cursos`);
   }
 
-  getcursoById(id: string): Observable<Curso> {
-    const cursoDoc = doc(this.firestore, `cursos/${id}`);
-    return docData(cursoDoc, { idField: 'id' }) as Observable<Curso>;
+  getCursoById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/cursos/${id}`);
   }
 
-  async addCurso(curso: Curso) {
-    
-    const docRef = doc(collection(this.firestore, 'cursos'));
-    const id = docRef.id;
-
-    const documentData = { ...curso, id };
-
-    // Save the document with the ID as an attribute
-    return await setDoc(docRef, documentData);
+  getCursoAsigAlumno(idAlumno: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/alumnos/${idAlumno}/cursos`);
   }
 
-  updateCurso(id: string, curso: Curso) {
-    const cursoDoc = doc(this.firestore, `cursos/${id}`);
-    return updateDoc(cursoDoc, { ...curso });
-  }
+  putIniciarAsignacion(idAsignacion: number) {
+    return new Promise((resolve) => {
+      const userDateISO = new Date().toISOString();
+      const body = { updatedAt: userDateISO };
 
-  deleteCurso(id: string) {
-    const cursoDoc = doc(this.firestore, `cursos/${id}`);
-    return deleteDoc(cursoDoc);
+      try {
+        this.http
+          .put(`${this.baseUrl}/asignacion/${idAsignacion}/iniciar`, body)
+          .subscribe((data) => {
+            console.log('data', data);
+            resolve(data);
+          });
+      } catch (error) {
+        console.log('error', error);
+        resolve({ status: 500, error: error });
+      }
+    });
   }
-
 }

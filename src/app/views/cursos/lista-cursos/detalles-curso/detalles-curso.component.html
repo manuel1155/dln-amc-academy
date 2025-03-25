@@ -1,11 +1,29 @@
-<div class="container p-10">
-    <h3 class="text-center mt-5 mb-5"> Nombre del curso:  {{ currentCurso?.titulo }}</h3>
+<div *ngIf="!done" class="container p-10">
+
+    <h1>Cargando...</h1>
+
+</div>
+
+<div *ngIf="error" class="container p-10">
+
+    <h1>Curso no encontrado</h1>
+
+</div>
+<div *ngIf="done && !error" class="container p-10">
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <!-- <button class="btn btn-primary me-md-2" type="button">Botón</button> -->
+        <button class="btn btn-primary" type="button" (click)="goToListaCursos()">Regresar</button>
+    </div>
+    <h6 class="text-center"> Nombre del curso </h6>
+    <h4 class="text-center"> {{ currentCurso?.titulo }}</h4>
+    <br>
     <c-row class="mb-10">
         <c-col sm="2">
             <b>Objetivo:</b>
         </c-col>
         <c-col sm="10">
-            <p> {{ currentCurso?.objetivo_curso }} </p>
+            <p> {{ currentCurso?.objetivo }} </p>
         </c-col>
     </c-row>
     <c-row class="mb-10">
@@ -27,14 +45,16 @@
             <b> Modalidad: </b>
         </c-col>
         <c-col sm="2">
-            <c-badge class="ms-2 float-start" color="primary" *ngIf="currentCurso?.modalidad?.includes('Presencial')"> Presencial </c-badge>
-            <c-badge class="ms-2 float-start" color="warning" *ngIf="currentCurso?.modalidad?.includes('Online')"> Online </c-badge>
+            <c-badge class="ms-2 float-start" color="primary" *ngIf="currentCurso?.modalidad?.includes('Presencial')">
+                Presencial </c-badge>
+            <c-badge class="ms-2 float-start" color="warning" *ngIf="currentCurso?.modalidad?.includes('Online')">
+                Online </c-badge>
         </c-col>
         <c-col sm="2">
             <b> Comentarios generales: </b>
         </c-col>
         <c-col sm="6">
-            <p> {{ currentCurso?.comentarios_grales }} </p>
+            <p> {{ currentCurso?.comentarios_generales }} </p>
         </c-col>
     </c-row>
     <c-row class="mb-10">
@@ -49,22 +69,27 @@
     <h5 class="text-center mt-5 mb-5"> Modulos del Curso </h5>
 
     <div class="accordion" id="accordionExample">
-        <div class="accordion-item" *ngFor="let modulo of modulosCurso | async; let i = index">
+        <div class="accordion-item" *ngFor="let modulo of modulosCurso; let i = index">
             <h2 class="accordion-header" id="heading{{ i }}">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                    [attr.data-bs-target]="'#collapse' + i"
-                    [attr.aria-controls]="'collapse' + i">
-                      <span style="font-weight: bold;"> TEMA {{ i+1 }}.- </span> {{ modulo.nombre_modulo }}
-                      <c-badge class="ms-2 float-end" color="success"> {{ modulo.area }} </c-badge>
+                    [attr.data-bs-target]="'#collapse' + i" [attr.aria-controls]="'collapse' + i">
+                    <span style="font-weight: bold;"> TEMA {{ i+1 }}.- </span> {{ modulo.nombre_modulo }}
+                    <c-badge class="ms-2 float-end" color="success"> {{ modulo.area }} </c-badge>
                 </button>
             </h2>
-            <div [id]="'collapse' + i" class="accordion-collapse collapse"
-                [attr.aria-labelledby]="'heading'+i">
+            <div [id]="'collapse' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading'+i">
                 <div class="accordion-body">
-                    <h5 class="mt-5 mb-5"> Lista de subtemas </h5>
 
-                    
-                    
+                    @if (modulo.submodulos.length > 0){
+                    <h5 class="mt-5 mb-5"> Lista de submodulos </h5>
+
+                    <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let submodulo of modulo.submodulos; let y = index">{{ i+1
+                            }}.{{ y+1 }} .- {{ submodulo.nombre_submodulo }} </li>
+                    </ul>
+                    } @else{
+                    <h5 class="mt-5 mb-5"> Sin información. </h5>
+                    }
                 </div>
             </div>
         </div>

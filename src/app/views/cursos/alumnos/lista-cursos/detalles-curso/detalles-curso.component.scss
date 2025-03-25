@@ -1,0 +1,40 @@
+.circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 16px;
+  }
+  
+  .seen {
+    background-color: blue; /* Círculo relleno de azul */
+    color: white;  /* Texto dentro del círculo */
+  }
+  
+  .not-seen {
+    background-color: transparent; /* Círculo vacío */
+    border: 2px solid blue; /* Borde azul */
+  }
+
+ /* Estilo del enlace */
+.topic-link {
+    color: inherit; /* Heredar el color del círculo */
+    font-weight: bold;
+    text-decoration: none; /* Eliminar el subrayado */
+    display: inline-block;
+    transition: color 0.3s ease, transform 0.3s ease; /* Transición suave */
+    transform-origin: left center; /* El origen del transform se establece a la izquierda */
+  }
+  
+  /* Efecto hover */
+  .topic-link:hover {
+    color: #007bff; /* Color azul brillante al pasar el ratón */
+    transform: scaleX(1.1); /* Escala solo en el eje X (horizontalmente) */
+  }
+  
+  .circle:hover {
+    cursor: pointer; /* Cambiar el cursor a mano */
+  }

@@ -1,1 +1,28 @@
-<p>Alumno lista-cursos works!</p>
+<div *ngFor="let curso of cursosAsignados; let i = index"  class="card" style="width: 18rem;">
+    <img class="card-img-top" [src]="curso.url_imagen" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{ curso.titulo_curso }}</h5>
+      <div class="row">
+        <div class="col-4">
+          @switch (curso.estatus) {
+            @case ('por_iniciar') {
+              <span class="badge text-bg-warning rounded-pill small"> Por iniciar </span>
+            }
+            @case ('proceso') {
+              <span class="badge text-bg-info rounded-pill small"> En proceso </span>
+            }
+            @default{
+              <span class="badge text-bg-success rounded-pill small"> Terminado </span>
+            }
+          }          
+        </div>  
+        <div class="col-4"></div>  
+        <div class="col-3">
+          <a (click)="goToDetallesCurso(curso.id_asignacion, curso.estatus)"  class="btn btn-primary">Cursar</a>
+        </div>
+        <div class="col-1"></div>  
+      </div>
+      
+      
+    </div>
+  </div>

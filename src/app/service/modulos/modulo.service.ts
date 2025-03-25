@@ -1,42 +1,69 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collectionData, updateDoc, deleteDoc, doc, collection, setDoc, query, where, orderBy } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { Modulo } from './../../interfaces/modulos';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ModuloService {
 
-  private modulosCollection = collection(this.firestore, 'modulos');
+  private baseUrl: string = 'http://localhost:3000/cursos';
+  private baseUrl2: string = 'http://localhost:3000';
 
-  constructor(private firestore: Firestore) { }
+  constructor(private http: HttpClient) { }
 
-  getModulosCurso(idCurso: string): Observable<Modulo[]> {
-    const q = query(
-      this.modulosCollection,
-      where('id_curso', '==', idCurso),
-      orderBy('orden','asc')
-    );
-    return collectionData(q, { idField: 'id' }) as Observable<Modulo[]>;
-  }
-  async addModule(modulo: Modulo) {
-    
-    const docRef = doc(collection(this.firestore, 'modulos'));
-    const id = docRef.id;
-    const documentData = { ...modulo, id };
-
-    return await setDoc(docRef, documentData);
+  getModulosCurso(idCurso: number): Observable<any[]> {
+    console.log(idCurso);
+    console.log(`${this.baseUrl}/${idCurso}`)
+    return this.http.get<any[]>(`${this.baseUrl}/${idCurso}/modulos`);
   }
 
-  updateModulo(id: string, modulo: Modulo) {
-    const moduloDoc = doc(this.firestore, `modulos/${id}`);
-    return updateDoc(moduloDoc, { ...modulo });
+  getDetalleModulo(idCurso: number, idModulo: number, idAsig: number): Observable<any[]> {
+    const body = {
+      idAsig: idAsig
+    }
+    return this.http.get<any[]>(`${this.baseUrl}/${idCurso}/asignacion/${idAsig}/modulos/${idModulo}`);
   }
 
-  deleteModulo(id: string) {
-    const moduloDoc = doc(this.firestore, `modulos/${id}`);
-    return deleteDoc(moduloDoc);
+  getModSubDetInfo(idAsig: number, idCurso: number){
+    return this.http.get<any>(`${this.baseUrl}/${idCurso}/asignacion/${idAsig}/detalles`);
   }
+
+  postIniciarModulo(idAsignacion: number, idModulo: number) {
+    return new Promise((resolve) => {
+      const userDateISO = new Date().toISOString();
+      const body = { updatedAt: userDateISO };
+
+      try {
+        this.http.post(`${this.baseUrl2}/asignacion/${idAsignacion}/modulo/${idModulo}/iniciar`, body)
+          .subscribe((data) => {
+            console.log('data', data);
+            resolve(data);
+          });
+      } catch (error) {
+        console.log('error', error);
+        resolve({ status: 500, error: error });
+      }
+    });
+  }
+
+  postIniciarSubmodulo(idAsignacion: number, idSubmodulo: number) {
+    return new Promise((resolve) => {
+      const userDateISO = new Date().toISOString();
+      const body = { updatedAt: userDateISO };
+
+      try {
+        this.http.post(`${this.baseUrl2}/asignacion/${idAsignacion}/submodulo/${idSubmodulo}/iniciar`, body)
+          .subscribe((data) => {
+            console.log('data', data);
+            resolve(data);
+          });
+      } catch (error) {
+        console.log('error', error);
+        resolve({ status: 500, error: error });
+      }
+    });
+  }
+
 
 }

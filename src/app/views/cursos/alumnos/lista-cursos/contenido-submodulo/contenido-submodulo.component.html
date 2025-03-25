@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-sm-3">
+    One of three columns
+  </div>
+  <div class="col-sm-9">
+
+    <h3>{{ currentSubModulo?.id_modulo }} .- {{ currentSubModulo?.nombre_modulo }}</h3>
+    <h4>{{ currentSubModulo?.id_modulo }}.{{ currentSubModulo?.orden_sub }} .- {{ currentSubModulo?.nombre_submodulo }}
+    </h4><br>
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <!-- <button class="btn btn-primary me-md-2" type="button">Botón</button> -->
+      <button class="btn btn-primary" type="button" (click)="goToTemaCurso(prevSubModulo.id_modulo, prevSubModulo.id_submodulo)"  title="Tema anterior" [disabled]="prevSubModulo == null"><svg
+          [cIcon]="icons.cilArrowCircleLeft"></svg></button>
+      <button class="btn btn-primary" type="button" (click)="goToDetallesCurso(1)" title="Ver temas del curso"><svg
+          [cIcon]="icons.cilList"></svg></button>
+      <button class="btn btn-primary" type="button" (click)="goToTemaCurso(nextSubModulo.id_modulo, nextSubModulo.id_submodulo)" title="Tema siguiente" [disabled]="nextSubModulo == null"><svg
+          [cIcon]="icons.cilArrowCircleRight"></svg></button>
+    </div>
+    <br><br>
+
+
+
+    @if (listaRecursos.length >0) {
+
+    <div *ngFor="let recurso of listaRecursos; let i = index">
+      Esto es un recurso Orden {{ recurso.orden }}
+
+      @switch (recurso.tipo) {
+      @case ('video') {
+
+      <div class="video-responsive">
+        <iframe [src]="recurso.contenido | safe : 'resourceUrl'" title="YouTube video player" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+      <br>
+      <br>
+      }
+      @case ('pdf') {
+      <br><br>
+      <embed [src]="recurso.contenido | safe: 'resourceUrl'" type="application/pdf" width="100%" height="600px">
+      }
+      @case ('imagen') {
+      <img [src]="recurso.contenido | safe: 'resourceUrl'" alt="Imagen de recurso" width="100%">
+      <br>
+      <br>
+      }
+      @case ('texto') {
+      <br>
+      <div [innerHTML]="recurso.contenido | safe : 'html'"></div>
+      <br>
+      }
+      @default {
+      <h3>Recurso no identificado</h3>
+      }
+      }
+    </div>
+
+    } @else {
+    <h3>No hay recursos para este tema</h3>
+    }
+
+    <br><br>
+  </div>
+</div>

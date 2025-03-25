@@ -26,10 +26,13 @@ import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeEsMX from '@angular/common/locales/es-MX';
 
+import { HttpClientModule } from "@angular/common/http";
+
 registerLocaleData(localeEsMX, 'es-MX');
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    importProvidersFrom(HttpClientModule),
     { provide: LOCALE_ID, useValue: 'es-MX' },
     provideRouter(
       routes,

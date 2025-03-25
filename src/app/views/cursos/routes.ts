@@ -11,19 +11,19 @@ export const routes: Routes = [
         path: '',
         redirectTo: 'cursos',
         pathMatch: 'full'
-      }, 
+      },  
       {
-        path: 'cursos',
+        path: 'lista',
         loadComponent: () => import('./lista-cursos/lista-cursos.component').then(m => m.ListaCursosComponent),
         data: {
           title: 'Lista de cursos'
         }
       },
       {
-        path: 'cursos/:id/detalles',
+        path: ':id/ver-detalles',
         loadComponent: () => import('./lista-cursos/detalles-curso/detalles-curso.component').then(m => m.DetallesCursoComponent),
         data: {
-          title: 'Mis cursos'
+          title: 'Detalle de curso'
         }
       },
       {
@@ -31,6 +31,20 @@ export const routes: Routes = [
         loadComponent: () => import('./alumnos/lista-cursos/lista-cursos.component').then(m => m.ListaCursosComponent),
         data: {
           title: 'Mis cursos'
+        }
+      },
+      {
+        path: 'alumnos/mis-cursos/:idAsig',
+        loadComponent: () => import('./alumnos/lista-cursos/detalles-curso/detalles-curso.component').then(m => m.DetallesCursoComponent),
+        data: {
+          title: 'Curso asignado'
+        }
+      },
+      {
+        path: 'alumnos/mis-cursos/:idCurso/modulo/:idModulo/submodulo/:idSubmodulo/contenido',
+        loadComponent: () => import('./alumnos/lista-cursos/contenido-submodulo/contenido-submodulo.component').then(m => m.ContenidoSubmoduloComponent),
+        data: {
+          title: 'Contenido del curso'
         }
       }
     ]

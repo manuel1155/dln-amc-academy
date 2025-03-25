@@ -302,7 +302,7 @@ export const navItems: INavData[] = [
         },
         {
           name: 'Lista de cursos',
-          url: '/cursos/cursos',
+          url: '/cursos/lista',
           icon: 'nav-icon-bullet'
         }
       ]
