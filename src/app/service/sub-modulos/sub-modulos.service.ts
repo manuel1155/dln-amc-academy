@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SubModulosService {
-  private baseUrl: string = 'http://localhost:3000/submodulos';
+  private baseUrl: string = 'http://ec2-54-146-53-229.compute-1.amazonaws.com:3000/submodulos';
 
   constructor(private http: HttpClient) {}
 

@@ -19,7 +19,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class CursoService {
-  private baseUrl: string = 'http://localhost:3000';
+  private baseUrl: string = 'http://ec2-54-146-53-229.compute-1.amazonaws.com:3000';
 
   constructor(private firestore: Firestore, private http: HttpClient) {}
 

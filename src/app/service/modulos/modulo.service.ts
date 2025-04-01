@@ -7,8 +7,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ModuloService {
 
-  private baseUrl: string = 'http://localhost:3000/cursos';
-  private baseUrl2: string = 'http://localhost:3000';
+  private baseUrl: string = 'http://ec2-54-146-53-229.compute-1.amazonaws.com:3000/cursos';
+  private baseUrl2: string = 'http://ec2-54-146-53-229.compute-1.amazonaws.com:3000';
 
   constructor(private http: HttpClient) { }
 
